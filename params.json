@@ -1,1 +1,1 @@
-{"name":"Niuben.GitHub.io","tagline":"博客","body":"Webpack CommonChunk详解","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
+{"name":"Niuben.GitHub.io","tagline":"博客","body":"Webpack CommonChunkPlugin详解# \r\nWebpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。\r\nCommonChunkPlugin插件是Webpack官方插件，主要用于公共文件提取；将多个模块都用到文件\r\n\r\n","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
