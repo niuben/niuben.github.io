@@ -23,9 +23,66 @@
 
       </header>
       <section>
-        <p>Webpack CommonChunkPlugin详解# 
-Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。
-CommonChunkPlugin插件是Webpack官方插件，主要用于公共文件提取；将多个模块都用到文件</p>
+        <p>Webpack CommonChunkPlugin详解# </p>
+
+<p>webpack介绍## </p>
+
+<h3>
+<a id="webpack最近比较流行前端构建工具它通过分析代码中require调用方式将代码进行模块化打包相关多个js文件会打包成一个文件同时webpack还具有md5版本内置开发调试服务器等功能相比grunt和gulp等任务流构建工具webpack具有模块化打包能力" class="anchor" href="#webpack%E6%9C%80%E8%BF%91%E6%AF%94%E8%BE%83%E6%B5%81%E8%A1%8C%E5%89%8D%E7%AB%AF%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%AE%83%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%E4%BB%A3%E7%A0%81%E4%B8%ADrequire%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E5%B0%86%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E7%9B%B8%E5%85%B3%E5%A4%9A%E4%B8%AAjs%E6%96%87%E4%BB%B6%E4%BC%9A%E6%89%93%E5%8C%85%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8C%E6%97%B6webpack%E8%BF%98%E5%85%B7%E6%9C%89md5%E7%89%88%E6%9C%AC%E5%86%85%E7%BD%AE%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%89%E5%8A%9F%E8%83%BD%E7%9B%B8%E6%AF%94grunt%E5%92%8Cgulp%E7%AD%89%E4%BB%BB%E5%8A%A1%E6%B5%81%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7webpack%E5%85%B7%E6%9C%89%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E8%83%BD%E5%8A%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。</h3>
+
+<h3>
+<a id="commonchunkplugin插件是webpack官方插件用于公共文件提取打包将多个模块都调用到文件打包到一个公共chunk中避免多个模块重复打包相同文件大大降低整体文件大小" class="anchor" href="#commonchunkplugin%E6%8F%92%E4%BB%B6%E6%98%AFwebpack%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E7%94%A8%E4%BA%8E%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%8F%90%E5%8F%96%E6%89%93%E5%8C%85%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%83%BD%E8%B0%83%E7%94%A8%E5%88%B0%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%E5%88%B0%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1chunk%E4%B8%AD%E9%81%BF%E5%85%8D%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%87%8D%E5%A4%8D%E6%89%93%E5%8C%85%E7%9B%B8%E5%90%8C%E6%96%87%E4%BB%B6%E5%A4%A7%E5%A4%A7%E9%99%8D%E4%BD%8E%E6%95%B4%E4%BD%93%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin插件是Webpack官方插件，用于公共文件提取打包；将多个模块都调用到文件，打包到一个公共Chunk中；避免多个模块重复打包相同文件，大大降低整体文件大小；</h3>
+
+<h2>
+<a id="commonchunkplugin参数列表" class="anchor" href="#commonchunkplugin%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin参数列表</h2>
+
+<ul>
+<li>name: 公共包名称叫什么。如果存在包名和name相同的话，这个包会变成公共包；如果name是数组会调用数组中每个名字；每个名字都可能是公共文件；如果这个参数没有赋值，所有包都会被选中；</li>
+<li>filename: 公共包文件格式；</li>
+<li>minChunks: 一个包放入公共包需要的最小次数；</li>
+<li>chunks: 那些包会被选中，如果这个值忽略，所有entry包都会被选中；</li>
+<li>children: 如果为true，公共包子元素都会被选中；</li>
+<li>async: 如果为true，会创建一个async公共包，会和其他包共同加载；</li>
+<li>minsize: 可以打包的最小质量；比如100KB；</li>
+</ul>
+
+<h2>
+<a id="commonchunkplugin实现原理" class="anchor" href="#commonchunkplugin%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin实现原理</h2>
+
+<h3>
+<a id="调试webpack" class="anchor" href="#%E8%B0%83%E8%AF%95webpack" aria-hidden="true"><span class="octicon octicon-link"></span></a>调试Webpack</h3>
+
+<p>前端需要使用工具来调试，方便知道程序中变量的值和逻辑运行情况；node-inspector是专门调试node程序；使用之前需要将node版本升级，如果版本过低，有些功能无法使用；按照使用如下：
+1. npm install node-inspector -g<br>
+2. npm-inspector
+3. 进入项目文件夹，找到webpack.config.js文件；
+4. node --debug-brk node_modules/webpack/bin/webpack.js(webpack所在文件夹）
+5. 打开chrome浏览器，输入<a href="http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;port=5858%EF%BC%9B">http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;port=5858；</a></p>
+
+<h3>
+<a id="公共文件数据结构" class="anchor" href="#%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>公共文件数据结构</h3>
+
+<p>有三个数据类型需要理解：block、module、chunk；
+block：
+module：一个commonJS或者AMD文件；
+chunk：多个module打包生成的；</p>
+
+<h3>
+<a id="实现原理" class="anchor" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>实现原理</h3>
+
+<p><code>if(!chunkNames &amp;&amp; (selectedChunks === false || async)) {
+                commonChunks = chunks;
+            } else if(Array.isArray(chunkNames)) {
+                commonChunks = chunkNames.map(function(chunkName) {
+                    return chunks.filter(function(chunk) {
+                        return chunk.name === chunkName;
+                    })[0];
+                });
+            } else {
+                commonChunks = chunks.filter(function(chunk) {
+                    return chunk.name === chunkNames;
+                });
+            }</code></p>
       </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
