@@ -73,7 +73,8 @@
 <h3>
 <a id="实现原理" class="anchor" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>实现原理</h3>
 
-<pre>if(!chunkNames &amp;&amp; (selectedChunks === false || async)) {
+<pre>
+if(!chunkNames &amp;&amp; (selectedChunks === false || async)) {
    commonChunks = chunks;
 }else if(Array.isArray(chunkNames)) {
     commonChunks = chunkNames.map(function(chunkName) {
@@ -90,79 +91,100 @@
 <h3>
 <a id="通过配置中name属性将commonchunks进行赋值" class="anchor" href="#%E9%80%9A%E8%BF%87%E9%85%8D%E7%BD%AE%E4%B8%ADname%E5%B1%9E%E6%80%A7%E5%B0%86commonchunks%E8%BF%9B%E8%A1%8C%E8%B5%8B%E5%80%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>通过配置中name属性，将commonChunks进行赋值；</h3>
 
-<pre>if(Array.isArray(selectedChunks)) {
+<pre>
+if(Array.isArray(selectedChunks)) {
     usedChunks = chunks.filter(function(chunk) {
         if(chunk === commonChunk) return false;
         return selectedChunks.indexOf(chunk.name) &gt;= 0;
     });
 } else if(selectedChunks === false || async) {
-    usedChunks = (commonChunk.chunks || []).filter(function(chunk) {
-           // we can only move modules from this chunk if the "commonChunk" is the only parent
+    usedChunks = (commonChunk.chunks || []).filter(function(chunk) {           
        return async || chunk.parents.length === 1;
-     });
+    });
 } else {
-   if(!commonChunk.entry) {
-         compilation.errors.push(new Error("CommonsChunkPlugin: While running in normal mode it's not allowed to use a non-entry chunk (" + commonChunk.name + ")"));
-                        return;
-   }
-   usedChunks = chunks.filter(function(chunk) {
-      var found = commonChunks.indexOf(chunk);
-      if(found &gt;= idx) return false;
-      return chunk.entry;
-   });
-}</pre>  
+    if(!commonChunk.entry) {
+        compilation.errors.push(new Error("CommonsChunkPlugin: While running in normal mode it's not allowed to use a non-entry chunk (" + commonChunk.name + ")"));
+        return;
+    }
+    usedChunks = chunks.filter(function(chunk) {
+        var found = commonChunks.indexOf(chunk);
+        if(found &gt;= idx) return false;
+        return chunk.entry;
+    });
+}</pre>
 
 <h3>
-<a id="获得被使用的包" class="anchor" href="#%E8%8E%B7%E5%BE%97%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8C%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>获得被使用的包；</h3>
+<a id="获得被使用的包" class="anchor" href="#%E8%8E%B7%E5%BE%97%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8C%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>获得被使用的包</h3>
 
 <pre>usedChunks.forEach(function(chunk) {
     chunk.modules.forEach(function(module) {
-       var idx = commonModules.indexOf(module);
-       if(idx   
+        var idx = commonModules.indexOf(module);
+        if(idx 小于 0){
+            commonModules.push(module);
+            commonModulesCount.push(1);
+        }else {
+            commonModulesCount[idx]++;
+        }
+    });
+})</pre> 
+ 
 
 <h3>
 <a id="使用包中每个模块被调用的个数" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%8C%85%E4%B8%AD%E6%AF%8F%E4%B8%AA%E6%A8%A1%E5%9D%97%E8%A2%AB%E8%B0%83%E7%94%A8%E7%9A%84%E4%B8%AA%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用包中每个模块被调用的个数；</h3>
 
 <pre>commonModulesCount.forEach(function(count, idx) {
-     var module = commonModules[idx];
-     if(typeof minChunks === "function") {
-          if(!minChunks(module, count))
-         return;
-     } else if(count   
+    var module = commonModules[idx];
+    if(typeof minChunks === "function") {
+        if(!minChunks(module, count))
+        return;
+    } else if(count 小于 (minChunks || Math.max(2, usedChunks.length))) {
+        return;
+    }
+    reallyUsedModules.push(module);
+})</pre>  
 
 <h3>
 <a id="将大于minchunks的module存入到reallyusedmodules中" class="anchor" href="#%E5%B0%86%E5%A4%A7%E4%BA%8Eminchunks%E7%9A%84module%E5%AD%98%E5%85%A5%E5%88%B0reallyusedmodules%E4%B8%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>将大于minChunks的module存入到reallyUsedModules中；</h3>
 
-<pre>reallyUsedModules.forEach(function(module) {
-     usedChunks.forEach(function(chunk) {
-          if(module.removeChunk(chunk)) {
-          if(reallyUsedChunks.indexOf(chunk)   
+<pre>
+reallyUsedModules.forEach(function(module) {
+    usedChunks.forEach(function(chunk) {
+        if(module.removeChunk(chunk)) {
+            if(reallyUsedChunks.indexOf(chunk) 小于 0)
+               reallyUsedChunks.push(chunk);
+            }
+        });
+        commonChunk.addModule(module);
+        module.addChunk(commonChunk);
+   });
+});</pre>  
 
 <h3>
 <a id="将多次调佣module存入commonchunk中" class="anchor" href="#%E5%B0%86%E5%A4%9A%E6%AC%A1%E8%B0%83%E4%BD%A3module%E5%AD%98%E5%85%A5commonchunk%E4%B8%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>将多次调佣module存入CommonChunk中；</h3>
 
-<pre>reallyUsedChunks.forEach(function(chunk) {
-     if(chunk.initial || chunk.entry)
-      return;
-     chunk.blocks.forEach(function(block) {
+<pre>
+reallyUsedChunks.forEach(function(chunk) {
+    if(chunk.initial || chunk.entry)
+        return;
+    chunk.blocks.forEach(function(block) {
         block.chunks.unshift(commonChunk);
         commonChunk.addBlock(block);
-     });
+    });
 });
 asyncChunk.origins = reallyUsedChunks.map(function(chunk) {
-   return chunk.origins.map(function(origin) {
-      var newOrigin = Object.create(origin);
-      newOrigin.reasons = (origin.reasons || []).slice();
-      newOrigin.reasons.push("async commons");
-      return newOrigin;
-   });
+    return chunk.origins.map(function(origin) {
+        var newOrigin = Object.create(origin);
+        newOrigin.reasons = (origin.reasons || []).slice();
+        newOrigin.reasons.push("async commons");
+        return newOrigin;
+    });
 }).reduce(function(arr, a) {
     arr.push.apply(arr, a);
-   return arr;
+    return arr;
 }, []);</pre>
 
 <h3>
-<a id="公共包增加block" class="anchor" href="#%E5%85%AC%E5%85%B1%E5%8C%85%E5%A2%9E%E5%8A%A0block" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>公共包增加Block</h3></pre></pre></pre>
+<a id="公共包增加block" class="anchor" href="#%E5%85%AC%E5%85%B1%E5%8C%85%E5%A2%9E%E5%8A%A0block" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>公共包增加Block</h3>
 
       <footer class="site-footer">
 
