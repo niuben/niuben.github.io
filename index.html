@@ -17,19 +17,19 @@
 
     <section class="main-content">
       <h1>
-<a id="webpack-commonchunkplugin详解" class="anchor" href="#webpack-commonchunkplugin%E8%AF%A6%E8%A7%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Webpack CommonChunkPlugin详解</h1>
+<a id="webpack-commonchunkplugin详解" class="anchor" href="#webpack-commonchunkplugin%E8%AF%A6%E8%A7%A3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webpack CommonChunkPlugin详解</h1>
 
 <h2>
-<a id="webpack介绍" class="anchor" href="#webpack%E4%BB%8B%E7%BB%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>webpack介绍</h2>
+<a id="webpack介绍" class="anchor" href="#webpack%E4%BB%8B%E7%BB%8D" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>webpack介绍</h2>
 
 <h3>
-<a id="webpack最近比较流行前端构建工具它通过分析代码中require调用方式将代码进行模块化打包相关多个js文件会打包成一个文件同时webpack还具有md5版本内置开发调试服务器等功能相比grunt和gulp等任务流构建工具webpack具有模块化打包能力" class="anchor" href="#webpack%E6%9C%80%E8%BF%91%E6%AF%94%E8%BE%83%E6%B5%81%E8%A1%8C%E5%89%8D%E7%AB%AF%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%AE%83%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%E4%BB%A3%E7%A0%81%E4%B8%ADrequire%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E5%B0%86%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E7%9B%B8%E5%85%B3%E5%A4%9A%E4%B8%AAjs%E6%96%87%E4%BB%B6%E4%BC%9A%E6%89%93%E5%8C%85%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8C%E6%97%B6webpack%E8%BF%98%E5%85%B7%E6%9C%89md5%E7%89%88%E6%9C%AC%E5%86%85%E7%BD%AE%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%89%E5%8A%9F%E8%83%BD%E7%9B%B8%E6%AF%94grunt%E5%92%8Cgulp%E7%AD%89%E4%BB%BB%E5%8A%A1%E6%B5%81%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7webpack%E5%85%B7%E6%9C%89%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E8%83%BD%E5%8A%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。</h3>
+<a id="webpack最近比较流行前端构建工具它通过分析代码中require调用方式将代码进行模块化打包相关多个js文件会打包成一个文件同时webpack还具有md5版本内置开发调试服务器等功能相比grunt和gulp等任务流构建工具webpack具有模块化打包能力" class="anchor" href="#webpack%E6%9C%80%E8%BF%91%E6%AF%94%E8%BE%83%E6%B5%81%E8%A1%8C%E5%89%8D%E7%AB%AF%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%AE%83%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%E4%BB%A3%E7%A0%81%E4%B8%ADrequire%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E5%B0%86%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E7%9B%B8%E5%85%B3%E5%A4%9A%E4%B8%AAjs%E6%96%87%E4%BB%B6%E4%BC%9A%E6%89%93%E5%8C%85%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8C%E6%97%B6webpack%E8%BF%98%E5%85%B7%E6%9C%89md5%E7%89%88%E6%9C%AC%E5%86%85%E7%BD%AE%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%89%E5%8A%9F%E8%83%BD%E7%9B%B8%E6%AF%94grunt%E5%92%8Cgulp%E7%AD%89%E4%BB%BB%E5%8A%A1%E6%B5%81%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7webpack%E5%85%B7%E6%9C%89%E6%A8%A1%E5%9D%97%E5%8C%96%E6%89%93%E5%8C%85%E8%83%BD%E5%8A%9B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。</h3>
 
 <h3>
-<a id="commonchunkplugin插件是webpack官方插件用于公共文件提取打包将多个模块都调用到文件打包到一个公共chunk中避免多个模块重复打包相同文件大大降低整体文件大小" class="anchor" href="#commonchunkplugin%E6%8F%92%E4%BB%B6%E6%98%AFwebpack%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E7%94%A8%E4%BA%8E%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%8F%90%E5%8F%96%E6%89%93%E5%8C%85%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%83%BD%E8%B0%83%E7%94%A8%E5%88%B0%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%E5%88%B0%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1chunk%E4%B8%AD%E9%81%BF%E5%85%8D%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%87%8D%E5%A4%8D%E6%89%93%E5%8C%85%E7%9B%B8%E5%90%8C%E6%96%87%E4%BB%B6%E5%A4%A7%E5%A4%A7%E9%99%8D%E4%BD%8E%E6%95%B4%E4%BD%93%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin插件是Webpack官方插件，用于公共文件提取打包；将多个模块都调用到文件，打包到一个公共Chunk中；避免多个模块重复打包相同文件，大大降低整体文件大小；</h3>
+<a id="commonchunkplugin插件是webpack官方插件用于公共文件提取打包将多个模块都调用到文件打包到一个公共chunk中避免多个模块重复打包相同文件大大降低整体文件大小" class="anchor" href="#commonchunkplugin%E6%8F%92%E4%BB%B6%E6%98%AFwebpack%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E7%94%A8%E4%BA%8E%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%8F%90%E5%8F%96%E6%89%93%E5%8C%85%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%83%BD%E8%B0%83%E7%94%A8%E5%88%B0%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%E5%88%B0%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1chunk%E4%B8%AD%E9%81%BF%E5%85%8D%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%9D%97%E9%87%8D%E5%A4%8D%E6%89%93%E5%8C%85%E7%9B%B8%E5%90%8C%E6%96%87%E4%BB%B6%E5%A4%A7%E5%A4%A7%E9%99%8D%E4%BD%8E%E6%95%B4%E4%BD%93%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CommonChunkPlugin插件是Webpack官方插件，用于公共文件提取打包；将多个模块都调用到文件，打包到一个公共Chunk中；避免多个模块重复打包相同文件，大大降低整体文件大小；</h3>
 
 <h2>
-<a id="commonchunkplugin参数列表" class="anchor" href="#commonchunkplugin%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin参数列表</h2>
+<a id="commonchunkplugin参数列表" class="anchor" href="#commonchunkplugin%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CommonChunkPlugin参数列表</h2>
 
 <ul>
 <li>name: 公共包名称叫什么。如果存在包名和name相同的话，这个包会变成公共包；如果name是数组会调用数组中每个名字；每个名字都可能是公共文件；如果这个参数没有赋值，所有包都会被选中；</li>
@@ -42,10 +42,10 @@
 </ul>
 
 <h2>
-<a id="commonchunkplugin实现原理" class="anchor" href="#commonchunkplugin%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>CommonChunkPlugin实现原理</h2>
+<a id="commonchunkplugin实现原理" class="anchor" href="#commonchunkplugin%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CommonChunkPlugin实现原理</h2>
 
 <h3>
-<a id="调试webpack" class="anchor" href="#%E8%B0%83%E8%AF%95webpack" aria-hidden="true"><span class="octicon octicon-link"></span></a>调试Webpack</h3>
+<a id="调试webpack" class="anchor" href="#%E8%B0%83%E8%AF%95webpack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>调试Webpack</h3>
 
 <p>前端需要使用工具来调试，方便知道程序中变量的值和逻辑运行情况；node-inspector是专门调试node程序；使用之前需要将node版本升级，如果版本过低，有些功能无法使用；按照使用如下：</p>
 
@@ -60,7 +60,7 @@
 </ul>
 
 <h3>
-<a id="公共文件数据结构" class="anchor" href="#%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>公共文件数据结构</h3>
+<a id="公共文件数据结构" class="anchor" href="#%E5%85%AC%E5%85%B1%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>公共文件数据结构</h3>
 
 <p>有三个数据类型需要理解：block、module、chunk；</p>
 
@@ -71,9 +71,9 @@
 </ul>
 
 <h3>
-<a id="实现原理" class="anchor" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>实现原理</h3>
+<a id="实现原理" class="anchor" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>实现原理</h3>
 
-<p><code>if(!chunkNames &amp;&amp; (selectedChunks === false || async)) {
+<pre>if(!chunkNames &amp;&amp; (selectedChunks === false || async)) {
    commonChunks = chunks;
 }else if(Array.isArray(chunkNames)) {
     commonChunks = chunkNames.map(function(chunkName) {
@@ -85,101 +85,85 @@
     commonChunks = chunks.filter(function(chunk) {
         return chunk.name === chunkNames;
     });
-}</code></p>
+}</pre>
 
 <h3>
-<a id="通过配置中name属性将commonchunks进行赋值" class="anchor" href="#%E9%80%9A%E8%BF%87%E9%85%8D%E7%BD%AE%E4%B8%ADname%E5%B1%9E%E6%80%A7%E5%B0%86commonchunks%E8%BF%9B%E8%A1%8C%E8%B5%8B%E5%80%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>通过配置中name属性，将commonChunks进行赋值；</h3>
+<a id="通过配置中name属性将commonchunks进行赋值" class="anchor" href="#%E9%80%9A%E8%BF%87%E9%85%8D%E7%BD%AE%E4%B8%ADname%E5%B1%9E%E6%80%A7%E5%B0%86commonchunks%E8%BF%9B%E8%A1%8C%E8%B5%8B%E5%80%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>通过配置中name属性，将commonChunks进行赋值；</h3>
 
-<p><code>if(Array.isArray(selectedChunks)) {
-                    usedChunks = chunks.filter(function(chunk) {
-                        if(chunk === commonChunk) return false;
-                        return selectedChunks.indexOf(chunk.name) &gt;= 0;
-                    });
-                } else if(selectedChunks === false || async) {
-                    usedChunks = (commonChunk.chunks || []).filter(function(chunk) {
-                        // we can only move modules from this chunk if the "commonChunk" is the only parent
-                        return async || chunk.parents.length === 1;
-                    });
-                } else {
-                    if(!commonChunk.entry) {
-                        compilation.errors.push(new Error("CommonsChunkPlugin: While running in normal mode it's not allowed to use a non-entry chunk (" + commonChunk.name + ")"));
+<pre>
+if(Array.isArray(selectedChunks)) {
+    usedChunks = chunks.filter(function(chunk) {
+        if(chunk === commonChunk) return false;
+        return selectedChunks.indexOf(chunk.name) &gt;= 0;
+    });
+} else if(selectedChunks === false || async) {
+    usedChunks = (commonChunk.chunks || []).filter(function(chunk) {
+           // we can only move modules from this chunk if the "commonChunk" is the only parent
+       return async || chunk.parents.length === 1;
+     });
+} else {
+   if(!commonChunk.entry) {
+         compilation.errors.push(new Error("CommonsChunkPlugin: While running in normal mode it's not allowed to use a non-entry chunk (" + commonChunk.name + ")"));
                         return;
-                    }
-                    usedChunks = chunks.filter(function(chunk) {
-                        var found = commonChunks.indexOf(chunk);
-                        if(found &gt;= idx) return false;
-                        return chunk.entry;
-                    });
-                }</code></p>
+   }
+   usedChunks = chunks.filter(function(chunk) {
+      var found = commonChunks.indexOf(chunk);
+      if(found &gt;= idx) return false;
+      return chunk.entry;
+   });
+}</pre>
 
 <h3>
-<a id="获得被使用的包" class="anchor" href="#%E8%8E%B7%E5%BE%97%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>获得被使用的包；</h3>
+<a id="获得被使用的包" class="anchor" href="#%E8%8E%B7%E5%BE%97%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8C%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>获得被使用的包；</h3>
 
-<p><code>usedChunks.forEach(function(chunk) {
-                    chunk.modules.forEach(function(module) {
-                        var idx = commonModules.indexOf(module);
-                        if(idx &lt; 0) {
-                            commonModules.push(module);
-                            commonModulesCount.push(1);
-                        } else {
-                            commonModulesCount[idx]++;
-                        }
-                    });
-                });</code></p>
+<pre>usedChunks.forEach(function(chunk) {
+    chunk.modules.forEach(function(module) {
+       var idx = commonModules.indexOf(module);
+       if(idx 
 
 <h3>
-<a id="使用包中每个模块被调用的个数" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%8C%85%E4%B8%AD%E6%AF%8F%E4%B8%AA%E6%A8%A1%E5%9D%97%E8%A2%AB%E8%B0%83%E7%94%A8%E7%9A%84%E4%B8%AA%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用包中每个模块被调用的个数；</h3>
+<a id="使用包中每个模块被调用的个数" class="anchor" href="#%E4%BD%BF%E7%94%A8%E5%8C%85%E4%B8%AD%E6%AF%8F%E4%B8%AA%E6%A8%A1%E5%9D%97%E8%A2%AB%E8%B0%83%E7%94%A8%E7%9A%84%E4%B8%AA%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用包中每个模块被调用的个数；</h3>
 
-<p><code>commonModulesCount.forEach(function(count, idx) {
-                    var module = commonModules[idx];
-                    if(typeof minChunks === "function") {
-                        if(!minChunks(module, count))
-                            return;
-                    } else if(count &lt; (minChunks || Math.max(2, usedChunks.length))) {
-                        return;
-                    }
-                    reallyUsedModules.push(module);
-                });</code></p>
+<pre>commonModulesCount.forEach(function(count, idx) {
+     var module = commonModules[idx];
+     if(typeof minChunks === "function") {
+          if(!minChunks(module, count))
+         return;
+     } else if(count 
 
 <h3>
-<a id="将大于minchunks的module存入到reallyusedmodules中" class="anchor" href="#%E5%B0%86%E5%A4%A7%E4%BA%8Eminchunks%E7%9A%84module%E5%AD%98%E5%85%A5%E5%88%B0reallyusedmodules%E4%B8%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>将大于minChunks的module存入到reallyUsedModules中；</h3>
+<a id="将大于minchunks的module存入到reallyusedmodules中" class="anchor" href="#%E5%B0%86%E5%A4%A7%E4%BA%8Eminchunks%E7%9A%84module%E5%AD%98%E5%85%A5%E5%88%B0reallyusedmodules%E4%B8%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>将大于minChunks的module存入到reallyUsedModules中；</h3>
 
-<p><code>reallyUsedModules.forEach(function(module) {
-                    usedChunks.forEach(function(chunk) {
-                        if(module.removeChunk(chunk)) {
-                            if(reallyUsedChunks.indexOf(chunk) &lt; 0)
-                                reallyUsedChunks.push(chunk);
-                        }
-                    });
-                    commonChunk.addModule(module);
-                    module.addChunk(commonChunk);
-                });</code></p>
+<pre>reallyUsedModules.forEach(function(module) {
+     usedChunks.forEach(function(chunk) {
+          if(module.removeChunk(chunk)) {
+          if(reallyUsedChunks.indexOf(chunk) 
 
 <h3>
-<a id="将多次调佣module存入commonchunk中" class="anchor" href="#%E5%B0%86%E5%A4%9A%E6%AC%A1%E8%B0%83%E4%BD%A3module%E5%AD%98%E5%85%A5commonchunk%E4%B8%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>将多次调佣module存入CommonChunk中；</h3>
+<a id="将多次调佣module存入commonchunk中" class="anchor" href="#%E5%B0%86%E5%A4%9A%E6%AC%A1%E8%B0%83%E4%BD%A3module%E5%AD%98%E5%85%A5commonchunk%E4%B8%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>将多次调佣module存入CommonChunk中；</h3>
 
-<p><code>reallyUsedChunks.forEach(function(chunk) {
-                        if(chunk.initial || chunk.entry)
-                            return;
-                        chunk.blocks.forEach(function(block) {
-                            block.chunks.unshift(commonChunk);
-                            commonChunk.addBlock(block);
-                        });
-                    });
-                    asyncChunk.origins = reallyUsedChunks.map(function(chunk) {
-                        return chunk.origins.map(function(origin) {
-                            var newOrigin = Object.create(origin);
-                            newOrigin.reasons = (origin.reasons || []).slice();
-                            newOrigin.reasons.push("async commons");
-                            return newOrigin;
-                        });
-                    }).reduce(function(arr, a) {
-                        arr.push.apply(arr, a);
-                        return arr;
-                    }, []);</code></p>
+<pre>reallyUsedChunks.forEach(function(chunk) {
+     if(chunk.initial || chunk.entry)
+      return;
+     chunk.blocks.forEach(function(block) {
+        block.chunks.unshift(commonChunk);
+        commonChunk.addBlock(block);
+     });
+});
+asyncChunk.origins = reallyUsedChunks.map(function(chunk) {
+   return chunk.origins.map(function(origin) {
+      var newOrigin = Object.create(origin);
+      newOrigin.reasons = (origin.reasons || []).slice();
+      newOrigin.reasons.push("async commons");
+      return newOrigin;
+   });
+}).reduce(function(arr, a) {
+    arr.push.apply(arr, a);
+   return arr;
+}, []);</pre>
 
 <h3>
-<a id="公共包增加block" class="anchor" href="#%E5%85%AC%E5%85%B1%E5%8C%85%E5%A2%9E%E5%8A%A0block" aria-hidden="true"><span class="octicon octicon-link"></span></a>公共包增加Block</h3>
+<a id="公共包增加block" class="anchor" href="#%E5%85%AC%E5%85%B1%E5%8C%85%E5%A2%9E%E5%8A%A0block" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>公共包增加Block</h3></pre></pre></pre>
 
       <footer class="site-footer">
 
