@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Extract text webpack plugin插件使用详情 · Perpetual motion</title><meta name="description" content="Extract text webpack plugin插件使用详情 - null"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Extract text webpack plugin插件使用详情</h1><div class="post-info">May 3, 2016</div><div class="post-content"><p>Extract-text-webpack-plugin插件能从webpack打包文件中提取内容并变成文件。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>有更少的style标签</li>
+<li>css具体source-map (如果css打包在js文件里是没有source-map)</li>
+<li>css文件能并行请求</li>
+<li>更快运行时间（更少代码和Dom操作）</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>更多Http请求</li>
+<li>更长时间打包编译时间</li>
+<li>更多配置选项</li>
+<li>没有热替换</li>
+</ul>
+<a id="more"></a>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><figcaption><span>intall extract-text-webpack-plugin --save-dev ```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 在webpack.config.js中添加：var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);</div><div class="line">* 在plugins添加：new ExtractTextPlugin(&quot;[name].css&quot;)</div><div class="line">* 在module loaders中添加：&#123; test: /.scss$/, loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader!sass-loader&quot;)&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">## extract方法使用</div><div class="line"></div><div class="line">``` extract([notExtractLoader], loader, [options])</div></pre></td></tr></table></figure>
+<ul>
+<li>notExtractLoader: 指定不提取的loader</li>
+<li>loader：需要提取内容loader</li>
+<li>options<ul>
+<li>publicPath：设置发布路径，这个参数会覆盖output的publicPath参数；这个参数非常有用，可以改变css文件里资源引用路径，当css文件路径发生改变，不会出现资源找不到的情况；</li>
+</ul>
+</li>
+</ul>
+<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>Extract-text-webpack-plugin不能和loader同时操作相同后缀名的文件；例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">module: &#123;</div><div class="line">    loaders: [</div><div class="line"></div><div class="line">       &#123; test: /.scss$/, loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader!sass-loader&quot;, &#123;publicPath: &quot;./&quot;&#125;)&#125;,</div><div class="line">        &#123; test: /.scss/, loader: &quot;style-loader!css-loader!sass-loader&quot;&#125;,</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>拓展阅读：</p>
+<ul>
+<li>extract-text-webpack-plugin</li>
+<li>css文件只能合并的问题</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/07/13/Webpack CommonChunkPlugin详解/" class="prev">PREV</a><a href="/2016/05/03/react 非初始化时如何传值/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

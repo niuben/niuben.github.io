@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Perpetual motion</title>
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-17T09:49:17.000Z</updated>
+  <updated>2016-12-17T13:08:06.000Z</updated>
   <id>http://yoursite.com/</id>
-  
-  <author>
-    <name>John Doe</name>
-    
-  </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
@@ -20,7 +15,7 @@
     <link href="http://yoursite.com/2016/07/13/Webpack%20CommonChunkPlugin%E8%AF%A6%E8%A7%A3/"/>
     <id>http://yoursite.com/2016/07/13/Webpack CommonChunkPlugin详解/</id>
     <published>2016-07-13T12:46:25.000Z</published>
-    <updated>2016-12-17T09:49:17.000Z</updated>
+    <updated>2016-12-17T13:08:06.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="webpack介绍"><a href="#webpack介绍" class="headerlink" title="webpack介绍"></a>webpack介绍</h2><p>Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。</p>
 <p>CommonChunkPlugin插件是Webpack官方插件，用于公共文件提取打包；将多个模块都调用到文件，打包到一个公共Chunk中；避免多个模块重复打包相同文件，大大降低整体文件大小；</p>
@@ -78,6 +73,223 @@
 &lt;li&gt;node –debug-brk node_modules/webpack/bin/webpack.js(webpack所在文件夹）&lt;/li&gt;
 &lt;li&gt;打开chrome浏览器，输入&lt;a href=&quot;http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;amp;port=5858；&quot;&gt;http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;amp;port=5858；&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="webpack" scheme="http://yoursite.com/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Extract text webpack plugin插件使用详情</title>
+    <link href="http://yoursite.com/2016/05/03/Extract%20text%20webpack%20plugin%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E8%AF%A6%E6%83%85/"/>
+    <id>http://yoursite.com/2016/05/03/Extract text webpack plugin插件使用详情/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:04:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Extract-text-webpack-plugin插件能从webpack打包文件中提取内容并变成文件。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>有更少的style标签</li>
+<li>css具体source-map (如果css打包在js文件里是没有source-map)</li>
+<li>css文件能并行请求</li>
+<li>更快运行时间（更少代码和Dom操作）</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>更多Http请求</li>
+<li>更长时间打包编译时间</li>
+<li>更多配置选项</li>
+<li>没有热替换</li>
+</ul>
+<a id="more"></a>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><figcaption><span>intall extract-text-webpack-plugin --save-dev ```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 在webpack.config.js中添加：var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);</div><div class="line">* 在plugins添加：new ExtractTextPlugin(&quot;[name].css&quot;)</div><div class="line">* 在module loaders中添加：&#123; test: /.scss$/, loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader!sass-loader&quot;)&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">## extract方法使用</div><div class="line"></div><div class="line">``` extract([notExtractLoader], loader, [options])</div></pre></td></tr></table></figure>
+<ul>
+<li>notExtractLoader: 指定不提取的loader</li>
+<li>loader：需要提取内容loader</li>
+<li>options<ul>
+<li>publicPath：设置发布路径，这个参数会覆盖output的publicPath参数；这个参数非常有用，可以改变css文件里资源引用路径，当css文件路径发生改变，不会出现资源找不到的情况；</li>
+</ul>
+</li>
+</ul>
+<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>Extract-text-webpack-plugin不能和loader同时操作相同后缀名的文件；例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">module: &#123;</div><div class="line">    loaders: [</div><div class="line"></div><div class="line">       &#123; test: /.scss$/, loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader!sass-loader&quot;, &#123;publicPath: &quot;./&quot;&#125;)&#125;,</div><div class="line">        &#123; test: /.scss/, loader: &quot;style-loader!css-loader!sass-loader&quot;&#125;,</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>拓展阅读：</p>
+<ul>
+<li>extract-text-webpack-plugin</li>
+<li>css文件只能合并的问题</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Extract-text-webpack-plugin插件能从webpack打包文件中提取内容并变成文件。&lt;/p&gt;
+&lt;h2 id=&quot;优点&quot;&gt;&lt;a href=&quot;#优点&quot; class=&quot;headerlink&quot; title=&quot;优点&quot;&gt;&lt;/a&gt;优点&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;有更少的style标签&lt;/li&gt;
+&lt;li&gt;css具体source-map (如果css打包在js文件里是没有source-map)&lt;/li&gt;
+&lt;li&gt;css文件能并行请求&lt;/li&gt;
+&lt;li&gt;更快运行时间（更少代码和Dom操作）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;缺点&quot;&gt;&lt;a href=&quot;#缺点&quot; class=&quot;headerlink&quot; title=&quot;缺点&quot;&gt;&lt;/a&gt;缺点&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;更多Http请求&lt;/li&gt;
+&lt;li&gt;更长时间打包编译时间&lt;/li&gt;
+&lt;li&gt;更多配置选项&lt;/li&gt;
+&lt;li&gt;没有热替换&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="webpack" scheme="http://yoursite.com/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>react 非初始化时如何传值</title>
+    <link href="http://yoursite.com/2016/05/03/react%20%E9%9D%9E%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E5%A6%82%E4%BD%95%E4%BC%A0%E5%80%BC/"/>
+    <id>http://yoursite.com/2016/05/03/react 非初始化时如何传值/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:20:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一般都是通过getInitialState和getInitialProp两个进行初始化传值； 如果遇到值需要异步ajax获取的话，则通过componentDidMount和componentWillMount两个方式。 有一种情况时，组件并非初始化时传值，已经初始化完成了，需要中途给它传值；这种情况下有下面三个方法</p>
+<ul>
+<li>componentWillReceiveProp: 得到新的props会被调用，但是初始化时不会被调用；而且使用setState时不会触发二次渲染；</li>
+<li>componentDidUpdate：用于prop和state已经传递，并且DOM节点已经发生变化；</li>
+<li>componentWillUpdate：用于prop和state已经传递， DOM节点没有发生改变；这里不能使用setState方式</li>
+</ul>
+<p>例子中获得classID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">componentWillReceiveProps(props)&#123;</div><div class="line">       var tagData = props.tagData;</div><div class="line">        if(tagData) &#123;</div><div class="line">            this.setState(&#123;</div><div class="line">                classifyID:  tagData.tagClassifyId</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一般都是通过getInitialState和getInitialProp两个进行初始化传值； 如果遇到值需要异步ajax获取的话，则通过componentDidMount和componentWillMount两个方式。 有一种情况时，组件并非初始化时传值，已经初始化完成了，需要中途给它传值；这种情况下有下面三个方法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;componentWillReceiveProp: 得到新的props会被调用，但是初始化时不会被调用；而且使用setState时不会触发二次渲染；&lt;/li&gt;
+&lt;li&gt;componentDidUpdate：用于prop和state已经传递，并且DOM节点已经发生变化；&lt;/li&gt;
+&lt;li&gt;componentWillUpdate：用于prop和state已经传递， DOM节点没有发生改变；这里不能使用setState方式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例子中获得classID&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;componentWillReceiveProps(props)&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       var tagData = props.tagData;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        if(tagData) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            this.setState(&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                classifyID:  tagData.tagClassifyId&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &amp;#125;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="react" scheme="http://yoursite.com/tags/react/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>react JSX遍历obj</title>
+    <link href="http://yoursite.com/2016/05/03/React%20JSX%E9%81%8D%E5%8E%86obj/"/>
+    <id>http://yoursite.com/2016/05/03/React JSX遍历obj/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:20:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用Object.keys方法获取对象所有key，再通过Key获取具体对象的值；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> list = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="string">"a"</span>,</div><div class="line">    <span class="attr">b</span>: <span class="string">"b"</span>,</div><div class="line">    <span class="attr">c</span>: <span class="string">"c"</span></div><div class="line">&#125;;</div><div class="line">  </div><div class="line"><span class="built_in">Object</span>.keys(list).map(<span class="function">(<span class="params">name, index</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span>(&#123;</div><div class="line">    	list[name]</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用Object.keys方法获取对象所有key，再通过Key获取具体对象的值；&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; list = &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;a&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;a&quot;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;b&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;b&quot;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;c&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;c&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;Object&lt;/span&gt;.keys(list).map(&lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;name, index&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;(&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    	list[name]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="react" scheme="http://yoursite.com/tags/react/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>webpack dev server 调试服务器介绍</title>
+    <link href="http://yoursite.com/2016/05/03/webpack%20dev%20server%20%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://yoursite.com/2016/05/03/webpack dev server 调试服务器介绍/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:24:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。</p>
+<p>webpack-dev-server主要有下面几个功能：</p>
+<ol>
+<li>–Content-Base 设置资源目录 </li>
+<li>Automatic Refresh 自动刷新 </li>
+<li>Hot Module Replacement 热替换 4. Proxy 代理</li>
+</ol>
+<h2 id="Content-Base-设置资源目录"><a href="#Content-Base-设置资源目录" class="headerlink" title="Content-Base 设置资源目录"></a>Content-Base 设置资源目录</h2><p>一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest<br>使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">  <span class="attr">path</span>: <span class="string">"/dest/"</span>,</div><div class="line">  <span class="attr">publicPath</span>: <span class="string">"/dest/"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>publicPath和path属性的区别是，publicPath是Url，path只是一个文件路径。publicPath比path适用的范围更广。</p>
+<h2 id="Automatic-Refresh-自动刷新"><a href="#Automatic-Refresh-自动刷新" class="headerlink" title="Automatic Refresh 自动刷新"></a>Automatic Refresh 自动刷新</h2><p>webpack-der-server可以监听文件变化状态；当文件变化时自动重新编译文件并刷新浏览器。有两种模式选择： 1. iframe mode： 使用iframe加载页面，并控制和刷新页面； 2. inline mode： 将控制代码加在打包代码中，当代码发生改变页面会刷新；</p>
+<h2 id="iframe-mode"><a href="#iframe-mode" class="headerlink" title="iframe mode"></a>iframe mode</h2><p>使用iframe mode不需要额外配置，直接webpack-dev-server，访问格式是：http://<host>:<port>/webpack-dev-server/<path></path></port></host></p>
+<h2 id="inline-mode"><a href="#inline-mode" class="headerlink" title="inline mode"></a>inline mode</h2><p>使用inline mode则使用webpack-dev-server –inline，访问格式是http://<host>:<port>/<path></path></port></host></p>
+<h2 id="Hot-Module-Replacement-热替换"><a href="#Hot-Module-Replacement-热替换" class="headerlink" title="Hot Module Replacement 热替换"></a>Hot Module Replacement 热替换</h2><p>iframe mode和inline mode都支持Hot Module Replacement功能，使用webpack-dev-server –hot启动服务器</p>
+<h2 id="Proxy-代理"><a href="#Proxy-代理" class="headerlink" title="Proxy 代理"></a>Proxy 代理</h2><p>可以在webpack.config.js中配置devServer属性，将Proxy代码加在devServer属性中；</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自
+    
+    </summary>
+    
+    
+      <category term="webpack" scheme="http://yoursite.com/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Webpack Hot Module ReplaceMent介绍</title>
+    <link href="http://yoursite.com/2016/05/03/Webpack%20Hot%20Module%20ReplaceMent%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://yoursite.com/2016/05/03/Webpack Hot Module ReplaceMent介绍/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:26:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Hot-Module-ReplaceMent介绍"><a href="#Hot-Module-ReplaceMent介绍" class="headerlink" title="Hot Module ReplaceMent介绍"></a>Hot Module ReplaceMent介绍</h2><p>Webpack的Hot Module ReplaceMent（后面简称HMR）是一个很酷的功能。它可以在不刷新页面情况下，实时更新修改过模块。这在开发中带来极大的便利。特别对模块调用关系复杂、层级比较深的WebApp。因为有些模块需要经过多次交互才能展示出来，有了HMR功能后修改代码不用再重新操作一遍。如果想使用上这个HMR功能，需要使用webpack-dev-server调试服务器和在代码中加上module.hot.accept等逻辑。下面具体说一下。</p>
+<h2 id="webpack-dev-server按照"><a href="#webpack-dev-server按照" class="headerlink" title="webpack-dev-server按照"></a>webpack-dev-server按照</h2><p>webpack-dev-server是用于webpack项目调试小型静态服务器。具体监听文件变化自动刷新、代理路径、热替换等功能；  </p>
+<ul>
+<li>安装命令：<code>npm install -g webpack-dev-server</code>  </li>
+<li>启动命令：<code>webpack-dev-server</code>  </li>
+<li>支持HMR功能启动命令：<code>webpack-dev-server --hot</code><br>另一种支持HMR功能方式是在webpack.config.js中加入HotModuleReplacementPlugin插件；</li>
+</ul>
+<h2 id="HMR运行的原理"><a href="#HMR运行的原理" class="headerlink" title="HMR运行的原理"></a>HMR运行的原理</h2><p><img src="http://webpack.github.io/assets/HMR.svg" alt="webpack官方文档上的图"><br>上面这张图是引用Webpack官方文档中的图。每个圆形代表是一个代码模块module、圆角长方形代表是代码块（几个module组合而成）。当4和10两个模块编辑更新后，它们的上层或者说是父节点都重新更新，它们下层或者子节点都没有更新；<br>从这个例子说明: <strong>模块的更新状态是通过冒泡方式向上传递的；</strong><br>通过每个节点都可以捕获和处理到从子节点冒泡上来更新状态，如果节点都不处理更新状态的话，最终会冒泡到根节点。<strong>如果根节点捕获到更新状态会触发页面刷新</strong></p>
+<h2 id="处理更新状态"><a href="#处理更新状态" class="headerlink" title="处理更新状态"></a>处理更新状态</h2><p>主要用到module.hot属性，处理方式是在每个模块下加入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="built_in">module</span>.hot) &#123;  </div><div class="line">    <span class="built_in">module</span>.hot.accept();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个代码作用是：接受模块更新状态，阻止更新状态向上传递到根节点，从而实现不刷新页面使代码更新的功能；</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><h4 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>(<span class="string">"./hotA.js"</span>);</div></pre></td></tr></table></figure>
+<h4 id="hotA-js"><a href="#hotA-js" class="headerlink" title="hotA.js"></a>hotA.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alert(<span class="string">"hotA"</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">"./hotB.js"</span>);</div></pre></td></tr></table></figure>
+<h4 id="hotB-js"><a href="#hotB-js" class="headerlink" title="hotB.js"></a>hotB.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alert(<span class="string">"hotB"</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">"./hotA.js"</span>);</div></pre></td></tr></table></figure>
+<p>使用命令<code>webpack-dev-server --hot</code>启动服务器，会分别弹出hotA和hotB两个弹出框。<br>当把hotB.js的<code>alert(&quot;hotB&quot;)</code>改成<code>alert(&quot;hotB update&quot;)</code>,整个页面就会重新刷新。<br><strong>如果hotB.js文件改成：</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="built_in">module</span>.hot) &#123;</div><div class="line">    <span class="built_in">module</span>.hot.accept();</div><div class="line"> &#125;</div><div class="line">alert(<span class="string">"hotB update"</span>);</div><div class="line"><span class="built_in">require</span>(<span class="string">"./hotA.js"</span>);</div></pre></td></tr></table></figure></p>
+<p>页面不会刷新，只有hotB文件重新触发一次。从此调试变得更轻松~</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Hot-Module-ReplaceMent介绍&quot;&gt;&lt;a href=&quot;#Hot-Module-ReplaceMent介绍&quot; class=&quot;headerlink&quot; title=&quot;Hot Module ReplaceMent介绍&quot;&gt;&lt;/a&gt;Hot Module Rep
+    
+    </summary>
+    
+    
+      <category term="webpack" scheme="http://yoursite.com/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>webpack 图片压缩</title>
+    <link href="http://yoursite.com/2016/05/03/webpack%20%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/"/>
+    <id>http://yoursite.com/2016/05/03/webpack 图片压缩/</id>
+    <published>2016-05-03T12:46:25.000Z</published>
+    <updated>2016-12-17T13:27:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"><a href="#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。" class="headerlink" title="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"></a>使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。</h3><p>img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：</p>
+<ul>
+<li>gifsicle ：压缩Gif图片</li>
+<li>jpegtran： 压缩Jpg</li>
+<li>opipng：压缩Png</li>
+<li>pngquant：压缩Png</li>
+<li>svgo：压缩Svg图片</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot;&gt;&lt;a href=&quot;#使用img-loader进行图片压缩。img-loader要和url-loader、file
     
     </summary>
     
