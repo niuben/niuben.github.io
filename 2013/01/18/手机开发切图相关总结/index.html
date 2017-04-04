@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 手机开发切图相关总结 · Perpetual motion</title><meta name="description" content="手机开发切图相关总结 - null"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">手机开发切图相关总结</h1><div class="post-info">Jan 18, 2013</div><div class="post-content"><p>这两天都在做一些手机开发的工作。感觉和pc端的有一些差异性。需要考虑的问题增加很多。其中一个问题就是适配问题，需要考虑多种机型的分辨率问题。当UE给出效果图的时候，需要做一些缩放的工作。这个过程是比较枯燥的。当遇到图片的时候，需要利用background-size的属性来缩放。</p>
+<p>手机浏览器一般有流量的因素，所以有些渐变的效果，可以直接用css来实现。而不需要再加载一些图片，从而增加流量。所以要对-webkit-gradient属性要很熟悉。  </p>
+<p>手机浏览器屏幕很小，所以要考虑布局问题，怎么样布局可以让页面看上去，更加的流畅而不拥挤。  </p>
+<p>手机浏览器的内存较小，冗余的样式代码会加剧不必要的内存损耗。所以编写优雅简洁的代码在显得更加的必要。  </p>
+<p>发现自己切一个图花了两天的时间。其中有很多的方法是不正确的。下面总结一个切图的方法论。<br><a id="more"></a><br> 1.按照一个正常的思维流程，从大到小。先把握的大方向。比如怎么布局，整个字体样式等等。</p>
+<p> 2.写出一些基本单元样式，供后面使用。</p>
+<p> 3.尽量使用继承的样式，如果满足要求的话，可以使用覆盖方式。从而可以减小代码量。</p>
+<p>当我们拿到一个做好的页面，要在基础上修改的时候。有下面几个原则。</p>
+<p> 1.首先在大的方面，阅读和理解样式代码，知道有什么。</p>
+<p> 2.然后列出所有需要修改的列表。</p>
+<p> 3.最后结合所有信息，做一个统一的修改。（防止对单一点，进行修改，这样的话，会顾此失彼）</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2013/03/06/canvas旋转图片（javascript）/" class="prev">PREV</a><a href="/2013/01/05/弹出框场景下的滚动条问题/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

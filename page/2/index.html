@@ -1,0 +1,80 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Perpetual motion</title><meta name="description" content="A Blog Powered By Hexo"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/07/13/Webpack CommonChunkPlugin详解/" class="post-title-link">Webpack CommonChunkPlugin详解</a></h2><div class="post-info">Jul 13, 2016</div><div class="post-content"><h2 id="webpack介绍"><a href="#webpack介绍" class="headerlink" title="webpack介绍"></a>webpack介绍</h2><p>Webpack最近比较流行前端构建工具.它通过分析代码中require调用方式，将代码进行模块化打包，相关多个JS文件会打包成一个文件。同时Webpack还具有MD5版本、内置开发调试服务器等功能；相比Grunt和Gulp等任务流构建工具，Webpack具有模块化打包能力。</p>
+<p>CommonChunkPlugin插件是Webpack官方插件，用于公共文件提取打包；将多个模块都调用到文件，打包到一个公共Chunk中；避免多个模块重复打包相同文件，大大降低整体文件大小；</p>
+<h2 id="CommonChunkPlugin参数列表"><a href="#CommonChunkPlugin参数列表" class="headerlink" title="CommonChunkPlugin参数列表"></a>CommonChunkPlugin参数列表</h2><ul>
+<li>name: 公共包名称叫什么。如果存在包名和name相同的话，这个包会变成公共包；如果name是数组会调用数组中每个名字；每个名字都可能是公共文件；如果这个参数没有赋值，所有包都会被选中；</li>
+<li>filename: 公共包文件格式；</li>
+<li>minChunks: 一个包放入公共包需要的最小次数；</li>
+<li>chunks: 那些包会被选中，如果这个值忽略，所有entry包都会被选中；</li>
+<li>children: 如果为true，公共包子元素都会被选中；</li>
+<li>async: 如果为true，会创建一个async公共包，会和其他包共同加载；</li>
+<li>minsize: 可以打包的最小质量；比如100KB；</li>
+</ul>
+<h2 id="CommonChunkPlugin实现原理"><a href="#CommonChunkPlugin实现原理" class="headerlink" title="CommonChunkPlugin实现原理"></a>CommonChunkPlugin实现原理</h2><h4 id="调试Webpack"><a href="#调试Webpack" class="headerlink" title="调试Webpack"></a>调试Webpack</h4><p>前端需要使用工具来调试，方便知道程序中变量的值和逻辑运行情况；node-inspector是专门调试node程序；使用之前需要将node版本升级，如果版本过低，有些功能无法使用；按照使用如下：</p>
+<ul>
+<li>npm install node-inspector -g</li>
+<li>npm-inspector</li>
+<li>进入项目文件夹，找到webpack.config.js文件；</li>
+<li>node –debug-brk node_modules/webpack/bin/webpack.js(webpack所在文件夹）</li>
+<li>打开chrome浏览器，输入<a href="http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;port=5858；">http://127.0.0.1:8080/?ws=127.0.0.1:8080&amp;port=5858；</a></li>
+</ul></div><a href="/2016/07/13/Webpack CommonChunkPlugin详解/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/webpack dev server 调试服务器介绍/" class="post-title-link">webpack dev server 调试服务器介绍</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><p>webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。</p>
+<p>webpack-dev-server主要有下面几个功能：</p>
+<ol>
+<li>–Content-Base 设置资源目录 </li>
+<li>Automatic Refresh 自动刷新 </li>
+<li>Hot Module Replacement 热替换 4. Proxy 代理</li>
+</ol>
+<h2 id="Content-Base-设置资源目录"><a href="#Content-Base-设置资源目录" class="headerlink" title="Content-Base 设置资源目录"></a>Content-Base 设置资源目录</h2><p>一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest<br>使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">  <span class="attr">path</span>: <span class="string">"/dest/"</span>,</div><div class="line">  <span class="attr">publicPath</span>: <span class="string">"/dest/"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p></div><a href="/2016/05/03/webpack dev server 调试服务器介绍/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/react 非初始化时如何传值/" class="post-title-link">react 非初始化时如何传值</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><p>一般都是通过getInitialState和getInitialProp两个进行初始化传值； 如果遇到值需要异步ajax获取的话，则通过componentDidMount和componentWillMount两个方式。 有一种情况时，组件并非初始化时传值，已经初始化完成了，需要中途给它传值；这种情况下有下面三个方法</p>
+<ul>
+<li>componentWillReceiveProp: 得到新的props会被调用，但是初始化时不会被调用；而且使用setState时不会触发二次渲染；</li>
+<li>componentDidUpdate：用于prop和state已经传递，并且DOM节点已经发生变化；</li>
+<li>componentWillUpdate：用于prop和state已经传递， DOM节点没有发生改变；这里不能使用setState方式</li>
+</ul>
+<p>例子中获得classID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">componentWillReceiveProps(props)&#123;</div><div class="line">       var tagData = props.tagData;</div><div class="line">        if(tagData) &#123;</div><div class="line">            this.setState(&#123;</div><div class="line">                classifyID:  tagData.tagClassifyId</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></div><a href="/2016/05/03/react 非初始化时如何传值/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/React JSX遍历obj/" class="post-title-link">react JSX遍历obj</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><p>使用Object.keys方法获取对象所有key，再通过Key获取具体对象的值；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> list = &#123;</div><div class="line">    <span class="attr">a</span>: <span class="string">"a"</span>,</div><div class="line">    <span class="attr">b</span>: <span class="string">"b"</span>,</div><div class="line">    <span class="attr">c</span>: <span class="string">"c"</span></div><div class="line">&#125;;</div><div class="line">  </div><div class="line"><span class="built_in">Object</span>.keys(list).map(<span class="function">(<span class="params">name, index</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span>(&#123;</div><div class="line">    	list[name]</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></div><a href="/2016/05/03/React JSX遍历obj/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/Webpack Hot Module ReplaceMent介绍/" class="post-title-link">Webpack Hot Module ReplaceMent介绍</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><h2 id="Hot-Module-ReplaceMent介绍"><a href="#Hot-Module-ReplaceMent介绍" class="headerlink" title="Hot Module ReplaceMent介绍"></a>Hot Module ReplaceMent介绍</h2><p>Webpack的Hot Module ReplaceMent（后面简称HMR）是一个很酷的功能。它可以在不刷新页面情况下，实时更新修改过模块。这在开发中带来极大的便利。特别对模块调用关系复杂、层级比较深的WebApp。因为有些模块需要经过多次交互才能展示出来，有了HMR功能后修改代码不用再重新操作一遍。如果想使用上这个HMR功能，需要使用webpack-dev-server调试服务器和在代码中加上module.hot.accept等逻辑。下面具体说一下。</p>
+<h2 id="webpack-dev-server按照"><a href="#webpack-dev-server按照" class="headerlink" title="webpack-dev-server按照"></a>webpack-dev-server按照</h2><p>webpack-dev-server是用于webpack项目调试小型静态服务器。具体监听文件变化自动刷新、代理路径、热替换等功能；  </p>
+<ul>
+<li>安装命令：<code>npm install -g webpack-dev-server</code>  </li>
+<li>启动命令：<code>webpack-dev-server</code>  </li>
+<li>支持HMR功能启动命令：<code>webpack-dev-server --hot</code><br>另一种支持HMR功能方式是在webpack.config.js中加入HotModuleReplacementPlugin插件；</li>
+</ul>
+<h2 id="HMR运行的原理"><a href="#HMR运行的原理" class="headerlink" title="HMR运行的原理"></a>HMR运行的原理</h2><p><img src="http://webpack.github.io/assets/HMR.svg" alt="webpack官方文档上的图"><br>上面这张图是引用Webpack官方文档中的图。每个圆形代表是一个代码模块module、圆角长方形代表是代码块（几个module组合而成）。当4和10两个模块编辑更新后，它们的上层或者说是父节点都重新更新，它们下层或者子节点都没有更新；<br>从这个例子说明: <strong>模块的更新状态是通过冒泡方式向上传递的；</strong><br>通过每个节点都可以捕获和处理到从子节点冒泡上来更新状态，如果节点都不处理更新状态的话，最终会冒泡到根节点。<strong>如果根节点捕获到更新状态会触发页面刷新</strong></p>
+<h2 id="处理更新状态"><a href="#处理更新状态" class="headerlink" title="处理更新状态"></a>处理更新状态</h2><p>主要用到module.hot属性，处理方式是在每个模块下加入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="built_in">module</span>.hot) &#123;  </div><div class="line">    <span class="built_in">module</span>.hot.accept();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个代码作用是：接受模块更新状态，阻止更新状态向上传递到根节点，从而实现不刷新页面使代码更新的功能；<br></div><a href="/2016/05/03/Webpack Hot Module ReplaceMent介绍/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/Extract text webpack plugin插件使用详情/" class="post-title-link">Extract text webpack plugin插件使用详情</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><p>Extract-text-webpack-plugin插件能从webpack打包文件中提取内容并变成文件。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>有更少的style标签</li>
+<li>css具体source-map (如果css打包在js文件里是没有source-map)</li>
+<li>css文件能并行请求</li>
+<li>更快运行时间（更少代码和Dom操作）</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>更多Http请求</li>
+<li>更长时间打包编译时间</li>
+<li>更多配置选项</li>
+<li>没有热替换</li>
+</ul></div><a href="/2016/05/03/Extract text webpack plugin插件使用详情/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/05/03/webpack 图片压缩/" class="post-title-link">webpack 图片压缩</a></h2><div class="post-info">May 3, 2016</div><div class="post-content"><h3 id="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"><a href="#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。" class="headerlink" title="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"></a>使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。</h3><p>img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：</p>
+<ul>
+<li>gifsicle ：压缩Gif图片</li>
+<li>jpegtran： 压缩Jpg</li>
+<li>opipng：压缩Png</li>
+<li>pngquant：压缩Png</li>
+<li>svgo：压缩Svg图片</div><a href="/2016/05/03/webpack 图片压缩/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2013/03/21/inline-block和float的区别和分析/" class="post-title-link">inline-block和float的区别和分析</a></h2><div class="post-info">Mar 21, 2013</div><div class="post-content"><p>这段时间做项目用到了inline-block和float，这两个属性。发现它们还是有很大的区别的。总结了一下</p>
+<p>当设置为inline-block，再设置其中元素margin-top的时候，会导致所有的兄弟元素都起这个作用。但是设置为float的话，就没有这个问题。</p>
+<p>看看下面的截图：<br></div><a href="/2013/03/21/inline-block和float的区别和分析/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2013/03/06/canvas旋转图片（javascript）/" class="post-title-link">canvas旋转图片（javascript）</a></h2><div class="post-info">Mar 6, 2013</div><div class="post-content"><p>最近在项目中需要用canvas旋转图片，这方面一开始也比较不懂。找了很多的资料才搞定这个问题。主要用到了三个函数，translate、rotate、drawImage。</p>
+<ul>
+<li>translate(x,y)：移动画布坐标系统，x和y表示水平和竖直方向的偏移量。</li>
+<li>rotate(reg)：旋转图片，reg表示旋转的度数。比如：Math.PI/4 表示为45。</li>
+<li>drawImage(source,sx,sy,sh,sw,dx,dy,dh,dw)：将图片加载到画布上。source表示的图片的对象，sx和sy表示距图片圆点的偏移量，sh和sw表示加载图片的长度和宽度。dx和dy：距画布原点的偏移量，dh和dw：利用画布宽度和高度。</li>
+</ul>
+<p>现在我们要将旋转一张图片，顺时针进行旋转。</p>
+<p>首先要在HTML上面增加一个canvas元素 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"test"</span> <span class="attr">width</span>=<span class="string">"120"</span> <span class="attr">height</span>=<span class="string">"120"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后需要在JavaScript中获取这个canvas</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> canvasObj = <span class="built_in">document</span>.getElementById(<span class="string">"test"</span>);</div></pre></td></tr></table></figure>
+<p>下面我们则要返回canvas绘图环境</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> cxt = canvasObj.getContext(<span class="string">"2d"</span>); <span class="comment">//2d表示用二维的方式</span></div></pre></td></tr></table></figure>
+<p>这时候我们要给这个画布设定一个旋转中心点。不过这个地方要重点说一下，图片一般都是长方形的。如果画布也设置成长方形的话。旋转过程中，有一部分图片会被截取掉。所以当图片为长方形的时候，我们先要将以图片最大尺寸的边来设置画布的长度和宽度。比如一张图片是200<em>100，那我们的画布必须是200</em>200。这样旋转的时候，才不会被截断。<br></div><a href="/2013/03/06/canvas旋转图片（javascript）/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2013/01/18/手机开发切图相关总结/" class="post-title-link">手机开发切图相关总结</a></h2><div class="post-info">Jan 18, 2013</div><div class="post-content"><p>这两天都在做一些手机开发的工作。感觉和pc端的有一些差异性。需要考虑的问题增加很多。其中一个问题就是适配问题，需要考虑多种机型的分辨率问题。当UE给出效果图的时候，需要做一些缩放的工作。这个过程是比较枯燥的。当遇到图片的时候，需要利用background-size的属性来缩放。</p>
+<p>手机浏览器一般有流量的因素，所以有些渐变的效果，可以直接用css来实现。而不需要再加载一些图片，从而增加流量。所以要对-webkit-gradient属性要很熟悉。  </p>
+<p>手机浏览器屏幕很小，所以要考虑布局问题，怎么样布局可以让页面看上去，更加的流畅而不拥挤。  </p>
+<p>手机浏览器的内存较小，冗余的样式代码会加剧不必要的内存损耗。所以编写优雅简洁的代码在显得更加的必要。  </p>
+<p>发现自己切一个图花了两天的时间。其中有很多的方法是不正确的。下面总结一个切图的方法论。<br></div><a href="/2013/01/18/手机开发切图相关总结/" class="read-more">...more</a></article></li></ul></main><footer><div class="paginator"><a href="/" class="prev">PREV</a><a href="/page/3/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

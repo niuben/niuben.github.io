@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 手机开发切图相关总结 · Perpetual motion</title><meta name="description" content="手机开发切图相关总结 - null"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">手机开发切图相关总结</h1><div class="post-info">Jan 13, 2017</div><div class="post-content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>算路是由很多Link组成,点击每个Link并显示它的属性值。还有一些右击菜单打点、根据条件过滤Link、地图和属性值联动等等功能；</p>
+<h2 id="项目实施"><a href="#项目实施" class="headerlink" title="项目实施"></a>项目实施</h2><ul>
+<li>1月4日交接项目；</li>
+<li>1月5日-1月6日 左侧菜单、画路</li>
+<li>1月7日-1月8日 高亮过滤功能、起终点列表展示</li>
+<li>1月9日 搜索PathID</li>
+<li>1月10日 </li>
+<li>1月11日 修改大数据量页面卡顿问题</li>
+<li>1月13日 修改途经点问题</li>
+</ul>
+<h2 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h2><ul>
+<li>React不是万能的，对做一些强交互还是捉襟见肘；</li>
+<li>React各个组件Props，如果控制不好就会造成极度混乱和莫名其妙的问题。</li>
+<li>做一个新的项目之前自己没有一点总结：所有东西都要从头开始，很多细节和坑都要重新再解决一遍。平时要从产品、设计、架构、组件、代码片段几个方面做总结和收集。形成自己的整体的体系。</li>
+<li>做项目之前把功能固定好。项目先完成基本功能或者PM要求的功能做完。先上线收集反馈在进行优化。不要一开始基本功能没有做好的情况下就进行优化。</li>
+<li>做一个模块或者组件的技术方案后要考虑对整体的影响。</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>项目工作量预估极度不准确；</li>
+<li>项目总是仓促上线，很多问题都是最后一刻被暴露出来；</li>
+</ul>
+<h2 id="产品"><a href="#产品" class="headerlink" title="产品"></a>产品</h2><ul>
+<li>对需要输入一个范围数值的，如果最小值和最大值已经确认，使用slider组件好于使用两个Input;</li>
+<li>对新上线不常用的功能，页面打开最好出现一个Tips，并让用户点击确认按钮进行关闭；</li>
+<li>通过不同条件过滤数据结果的交互；</li>
+<li>右键菜单点击功能后要主动消失；</li>
+<li>对常用的输入框且输入成本比较大提供一个历史记录，当输入框为空白时显示所有历史记录，再根据输入值过滤历史结果；</li>
+</ul>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><ul>
+<li>布局感觉还是比较奇怪，查看抓路信息的成本比较高，而且它的使用频率不低；</li>
+<li>查看属性区域比较局促，很多关键信息观看不是很舒服；</li>
+</ul>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><ul>
+<li>频繁交互产生的结果最好不要放在Render里面，它会导致；</li>
+<li>谨慎划分组件。如果强关联两个模块分为组件，小心它们之间频繁的数据通信；如果控制不好会影响组件内部性能和正常逻辑；</li>
+<li>合理拆分组件和分层；</li>
+<li>设计好配置文件会大大简化页面逻辑，并大大提高运营效率；</li>
+<li>对复杂页面要设计好数据结构，好的数据结构大大简化代码逻辑判断；</li>
+</ul>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><ul>
+<li>过滤条件;</li>
+<li>右侧菜单;</li>
+<li>展示对象属性;</li>
+</ul>
+<h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2><ul>
+<li>多个对象独自排序再一起显示出来;</li>
+<li>多层数组对象结构递归搜索;</li>
+<li>添加不同对象，点击对象删除;</li>
+<li>高亮限制条件;</li>
+<li>XML转JSON;</li>
+<li>JSON转XML;</li>
+<li>对各种日期格式解析返回时间戳;</li>
+<li>IP正则判断（具有端口号）;</li>
+<li>根据对象中具体一个属性进行排序；</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/02/11/webpack2新功能之tree sharking/" class="prev">PREV</a><a href="/2016/12/25/webpack打包速度优化之DllPlugin/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
