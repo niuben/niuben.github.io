@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 后端数据结构和前端不相符 · Perpetual motion</title><meta name="description" content="后端数据结构和前端不相符 - null"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">后端数据结构和前端不相符</h1><div class="post-info">Apr 5, 2017</div><div class="post-content"><p>今天一个项目后端接口的数据结构和前端展示数据结构差距很大。后端给出一个类似于下面数据结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  list: [&#123;  </div><div class="line">    index: 1</div><div class="line">    content: [&#123;</div><div class="line">        id: 1,</div><div class="line">        name: &quot;android&quot;</div><div class="line">    &#125;,&#123;</div><div class="line">        id: 3,</div><div class="line">        name: &quot;ios&quot;</div><div class="line">    &#125;,&#123;</div><div class="line">        id: 2,</div><div class="line">        name: &quot;wp&quot;</div><div class="line">    &#125;]</div><div class="line">  &#125;]  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>前端则需要展示一个表格样式。后端数据结构是有层级关系，前端的数据结构不是一个层级关系。前端希望下面的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    list: [&#123;</div><div class="line">        index: 1,</div><div class="line">        android_id: 1,</div><div class="line">        android_name: &quot;android&quot;,</div><div class="line">        ios_id: 3,</div><div class="line">        ios_name: &quot;ios&quot;,</div><div class="line">        wp_id: 2,</div><div class="line">        wp_name: &quot;wp&quot;        </div><div class="line">    &#125;]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当后端给出一个和前端不相符的数据结构。这种情况怎么处理？<br>肯定要对数据进行处理，处理的方式有两种。</p>
+<ol>
+<li>直接使用后端数据结构，前端展示过程中不断去遍历后端数据结构找到目标数据。</li>
+<li>自定义一套前端数据结构，在通信层中完成前后端数据的转换；</li>
+</ol>
+<h3 id="直接使用后端数据"><a href="#直接使用后端数据" class="headerlink" title="直接使用后端数据"></a>直接使用后端数据</h3><p>当页面交互非常简单的情况下，比如展示一个列表，可以直接使用后端数据。但是如果页面有很复杂的交互，则不合适直接用后端数据。因为每一步的交互都有可能改变数据，这样的话需要频繁对数据结构进行遍历查找和修改。会导致代码逻辑越来越复杂。</p>
+<h3 id="自定义数据结构"><a href="#自定义数据结构" class="headerlink" title="自定义数据结构"></a>自定义数据结构</h3><p>在交互很复杂的情况下，建议前端自定义一套数据结构。首先将后端数据结构转为成前端自定义数据结构，然后前端所有操作都直接处理自定义数据结构，只有最后向服务器提交数据的时候才把自定义数据结构转换成后端数据结构。<br>后端结构转化为前端结构和前端结构转化为后端结构，这两种都放在通信层来完成，从而保证在前端业务逻辑中始终处理是前端数据结构。这一点很重要，<strong>因为这种分层可以大大降低逻辑复杂度。</strong></p>
+<p>两种方式优缺点对比</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接使用后端数据</td>
+<td>逻辑相对简单只需要查找对应数据结构即可</td>
+<td>不合适有复杂交互的场景</td>
+</tr>
+<tr>
+<td>自定义数据结构</td>
+<td>可以很好应对复杂交互场景</td>
+<td>需要额外增加前后端相互转换逻辑</td>
+</tr>
+</tbody>
+</table>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/03/10/babel运行流程/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
