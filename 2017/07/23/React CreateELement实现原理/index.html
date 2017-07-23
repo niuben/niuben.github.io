@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> React createELement实现原理 · Perpetual motion</title><meta name="description" content="React createELement实现原理 - null"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Perpetual motion"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">React createELement实现原理</h1><div class="post-info">Jul 23, 2017</div><div class="post-content"><p><code>createElement</code>方法是用于生成<code>DOM</code>元素并可以给<code>DOM</code>增加属性和事件。</p>
+<h3 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h3><p><code>createElement(tag, props, content|createElement</code>的参量列表</p>
+<ul>
+<li>tag: 标签名</li>
+<li>props: 标签属性</li>
+<li>content | createElement: 标签内容或者子标签。</li>
+</ul>
+<h3 id="JSX转义"><a href="#JSX转义" class="headerlink" title="JSX转义"></a>JSX转义</h3><p>通常我们不会直接编写<code>createElement</code>,而是通过<code>babel</code>将<code>jsx</code>转译成<code>createElement</code>方法集合。比如下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;hello world&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>这段<code>html</code>将会被转译下面方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">React.createElement(</div><div class="line">  &quot;p&quot;,</div><div class="line">  null,</div><div class="line">  &quot;hello world&quot;</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>将有多个标签时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">  &lt;p&gt;hello world&lt;/p&gt;</div><div class="line">  &lt;p&gt;hello world&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>将被转译下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">React.createElement(</div><div class="line">  &quot;div&quot;,</div><div class="line">  null,</div><div class="line">  React.createElement(</div><div class="line">    &quot;p&quot;,</div><div class="line">    null,</div><div class="line">    &quot;hello world&quot;</div><div class="line">  ),</div><div class="line">  React.createElement(</div><div class="line">    &quot;p&quot;,</div><div class="line">    null,</div><div class="line">    &quot;hello world&quot;</div><div class="line">  )</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>将有多个标签时需要注意两个问题：</p>
+<ol>
+<li>只能有一个根节点</li>
+<li><code>createElement</code>参量个数不限定</li>
+</ol>
+<h3 id="元素嵌套实现原理"><a href="#元素嵌套实现原理" class="headerlink" title="元素嵌套实现原理"></a>元素嵌套实现原理</h3><p><code>React</code>在执行<code>createElement</code>时有以下几步</p>
+<ol>
+<li>通过<code>arguments</code>对象来遍历参量；</li>
+<li>从第三个参量开始判断是字符串和还是对象；</li>
+<li>如果是字符串则生成文本节点；</li>
+<li>如果是对象则存在<code>children</code>属性中。</li>
+<li>通过递归的方式重复以上动作，最后形成一个链式结构。</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/04/05/后端数据结构和前端不相符/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com"></a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
