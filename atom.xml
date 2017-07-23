@@ -5,10 +5,56 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-13T00:53:39.000Z</updated>
+  <updated>2017-07-23T11:23:24.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>React createELement实现原理</title>
+    <link href="http://yoursite.com/2017/07/23/React%20CreateELement%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2017/07/23/React CreateELement实现原理/</id>
+    <published>2017-07-23T11:33:00.000Z</published>
+    <updated>2017-07-23T11:23:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>createElement</code>方法是用于生成<code>DOM</code>元素并可以给<code>DOM</code>增加属性和事件。</p>
+<h3 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h3><p><code>createElement(tag, props, content|createElement</code>的参量列表</p>
+<ul>
+<li>tag: 标签名</li>
+<li>props: 标签属性</li>
+<li>content | createElement: 标签内容或者子标签。</li>
+</ul>
+<h3 id="JSX转义"><a href="#JSX转义" class="headerlink" title="JSX转义"></a>JSX转义</h3><p>通常我们不会直接编写<code>createElement</code>,而是通过<code>babel</code>将<code>jsx</code>转译成<code>createElement</code>方法集合。比如下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;hello world&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>这段<code>html</code>将会被转译下面方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">React.createElement(</div><div class="line">  &quot;p&quot;,</div><div class="line">  null,</div><div class="line">  &quot;hello world&quot;</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>将有多个标签时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">  &lt;p&gt;hello world&lt;/p&gt;</div><div class="line">  &lt;p&gt;hello world&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>将被转译下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">React.createElement(</div><div class="line">  &quot;div&quot;,</div><div class="line">  null,</div><div class="line">  React.createElement(</div><div class="line">    &quot;p&quot;,</div><div class="line">    null,</div><div class="line">    &quot;hello world&quot;</div><div class="line">  ),</div><div class="line">  React.createElement(</div><div class="line">    &quot;p&quot;,</div><div class="line">    null,</div><div class="line">    &quot;hello world&quot;</div><div class="line">  )</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>将有多个标签时需要注意两个问题：</p>
+<ol>
+<li>只能有一个根节点</li>
+<li><code>createElement</code>参量个数不限定</li>
+</ol>
+<h3 id="元素嵌套实现原理"><a href="#元素嵌套实现原理" class="headerlink" title="元素嵌套实现原理"></a>元素嵌套实现原理</h3><p><code>React</code>在执行<code>createElement</code>时有以下几步</p>
+<ol>
+<li>通过<code>arguments</code>对象来遍历参量；</li>
+<li>从第三个参量开始判断是字符串和还是对象；</li>
+<li>如果是字符串则生成文本节点；</li>
+<li>如果是对象则存在<code>children</code>属性中。</li>
+<li>通过递归的方式重复以上动作，最后形成一个链式结构。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;createElement&lt;/code&gt;方法是用于生成&lt;code&gt;DOM&lt;/code&gt;元素并可以给&lt;code&gt;DOM&lt;/code&gt;增加属性和事件。&lt;/p&gt;
+&lt;h3 id=&quot;参数介绍&quot;&gt;&lt;a href=&quot;#参数介绍&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+    
+      <category term="React createElement" scheme="http://yoursite.com/tags/React-createElement/"/>
+    
+  </entry>
   
   <entry>
     <title>后端数据结构和前端不相符</title>
@@ -603,39 +649,31 @@
   </entry>
   
   <entry>
-    <title>webpack dev server 调试服务器介绍</title>
-    <link href="http://yoursite.com/2016/05/03/webpack%20dev%20server%20%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://yoursite.com/2016/05/03/webpack dev server 调试服务器介绍/</id>
+    <title>webpack 图片压缩</title>
+    <link href="http://yoursite.com/2016/05/03/webpack%20%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/"/>
+    <id>http://yoursite.com/2016/05/03/webpack 图片压缩/</id>
     <published>2016-05-03T12:46:25.000Z</published>
     <updated>2016-12-25T04:21:57.000Z</updated>
     
-    <content type="html"><![CDATA[<p>webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。</p>
-<p>webpack-dev-server主要有下面几个功能：</p>
-<ol>
-<li>–Content-Base 设置资源目录 </li>
-<li>Automatic Refresh 自动刷新 </li>
-<li>Hot Module Replacement 热替换 4. Proxy 代理</li>
-</ol>
-<h2 id="Content-Base-设置资源目录"><a href="#Content-Base-设置资源目录" class="headerlink" title="Content-Base 设置资源目录"></a>Content-Base 设置资源目录</h2><p>一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest<br>使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">  <span class="attr">path</span>: <span class="string">"/dest/"</span>,</div><div class="line">  <span class="attr">publicPath</span>: <span class="string">"/dest/"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>publicPath和path属性的区别是，publicPath是Url，path只是一个文件路径。publicPath比path适用的范围更广。</p>
-<h2 id="Automatic-Refresh-自动刷新"><a href="#Automatic-Refresh-自动刷新" class="headerlink" title="Automatic Refresh 自动刷新"></a>Automatic Refresh 自动刷新</h2><p>webpack-der-server可以监听文件变化状态；当文件变化时自动重新编译文件并刷新浏览器。有两种模式选择： 1. iframe mode： 使用iframe加载页面，并控制和刷新页面； 2. inline mode： 将控制代码加在打包代码中，当代码发生改变页面会刷新；</p>
-<h2 id="iframe-mode"><a href="#iframe-mode" class="headerlink" title="iframe mode"></a>iframe mode</h2><p>使用iframe mode不需要额外配置，直接webpack-dev-server，访问格式是：http://<host>:<port>/webpack-dev-server/<path></path></port></host></p>
-<h2 id="inline-mode"><a href="#inline-mode" class="headerlink" title="inline mode"></a>inline mode</h2><p>使用inline mode则使用webpack-dev-server –inline，访问格式是http://<host>:<port>/<path></path></port></host></p>
-<h2 id="Hot-Module-Replacement-热替换"><a href="#Hot-Module-Replacement-热替换" class="headerlink" title="Hot Module Replacement 热替换"></a>Hot Module Replacement 热替换</h2><p>iframe mode和inline mode都支持Hot Module Replacement功能，使用webpack-dev-server –hot启动服务器</p>
-<h2 id="Proxy-代理"><a href="#Proxy-代理" class="headerlink" title="Proxy 代理"></a>Proxy 代理</h2><p>可以在webpack.config.js中配置devServer属性，将Proxy代码加在devServer属性中；</p>
+    <content type="html"><![CDATA[<h3 id="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"><a href="#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。" class="headerlink" title="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"></a>使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。</h3><p>img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：</p>
+<ul>
+<li>gifsicle ：压缩Gif图片</li>
+<li>jpegtran： 压缩Jpg</li>
+<li>opipng：压缩Png</li>
+<li>pngquant：压缩Png</li>
+<li>svgo：压缩Svg图片<a id="more"></a></li>
+</ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。&lt;/p&gt;
-&lt;p&gt;webpack-dev-server主要有下面几个功能：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;–Content-Base 设置资源目录 &lt;/li&gt;
-&lt;li&gt;Automatic Refresh 自动刷新 &lt;/li&gt;
-&lt;li&gt;Hot Module Replacement 热替换 4. Proxy 代理&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;Content-Base-设置资源目录&quot;&gt;&lt;a href=&quot;#Content-Base-设置资源目录&quot; class=&quot;headerlink&quot; title=&quot;Content-Base 设置资源目录&quot;&gt;&lt;/a&gt;Content-Base 设置资源目录&lt;/h2&gt;&lt;p&gt;一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest&lt;br&gt;使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：&lt;br&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;output: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;path&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;/dest/&quot;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;publicPath&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;/dest/&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+      &lt;h3 id=&quot;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot;&gt;&lt;a href=&quot;#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot; class=&quot;headerlink&quot; title=&quot;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot;&gt;&lt;/a&gt;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&lt;/h3&gt;&lt;p&gt;img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;gifsicle ：压缩Gif图片&lt;/li&gt;
+&lt;li&gt;jpegtran： 压缩Jpg&lt;/li&gt;
+&lt;li&gt;opipng：压缩Png&lt;/li&gt;
+&lt;li&gt;pngquant：压缩Png&lt;/li&gt;
+&lt;li&gt;svgo：压缩Svg图片
     
     </summary>
     
@@ -809,31 +847,39 @@
   </entry>
   
   <entry>
-    <title>webpack 图片压缩</title>
-    <link href="http://yoursite.com/2016/05/03/webpack%20%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/"/>
-    <id>http://yoursite.com/2016/05/03/webpack 图片压缩/</id>
+    <title>webpack dev server 调试服务器介绍</title>
+    <link href="http://yoursite.com/2016/05/03/webpack%20dev%20server%20%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://yoursite.com/2016/05/03/webpack dev server 调试服务器介绍/</id>
     <published>2016-05-03T12:46:25.000Z</published>
     <updated>2016-12-25T04:21:57.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"><a href="#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。" class="headerlink" title="使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。"></a>使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。</h3><p>img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：</p>
-<ul>
-<li>gifsicle ：压缩Gif图片</li>
-<li>jpegtran： 压缩Jpg</li>
-<li>opipng：压缩Png</li>
-<li>pngquant：压缩Png</li>
-<li>svgo：压缩Svg图片<a id="more"></a></li>
-</ul>
+    <content type="html"><![CDATA[<p>webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。</p>
+<p>webpack-dev-server主要有下面几个功能：</p>
+<ol>
+<li>–Content-Base 设置资源目录 </li>
+<li>Automatic Refresh 自动刷新 </li>
+<li>Hot Module Replacement 热替换 4. Proxy 代理</li>
+</ol>
+<h2 id="Content-Base-设置资源目录"><a href="#Content-Base-设置资源目录" class="headerlink" title="Content-Base 设置资源目录"></a>Content-Base 设置资源目录</h2><p>一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest<br>使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">  <span class="attr">path</span>: <span class="string">"/dest/"</span>,</div><div class="line">  <span class="attr">publicPath</span>: <span class="string">"/dest/"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>publicPath和path属性的区别是，publicPath是Url，path只是一个文件路径。publicPath比path适用的范围更广。</p>
+<h2 id="Automatic-Refresh-自动刷新"><a href="#Automatic-Refresh-自动刷新" class="headerlink" title="Automatic Refresh 自动刷新"></a>Automatic Refresh 自动刷新</h2><p>webpack-der-server可以监听文件变化状态；当文件变化时自动重新编译文件并刷新浏览器。有两种模式选择： 1. iframe mode： 使用iframe加载页面，并控制和刷新页面； 2. inline mode： 将控制代码加在打包代码中，当代码发生改变页面会刷新；</p>
+<h2 id="iframe-mode"><a href="#iframe-mode" class="headerlink" title="iframe mode"></a>iframe mode</h2><p>使用iframe mode不需要额外配置，直接webpack-dev-server，访问格式是：http://<host>:<port>/webpack-dev-server/<path></path></port></host></p>
+<h2 id="inline-mode"><a href="#inline-mode" class="headerlink" title="inline mode"></a>inline mode</h2><p>使用inline mode则使用webpack-dev-server –inline，访问格式是http://<host>:<port>/<path></path></port></host></p>
+<h2 id="Hot-Module-Replacement-热替换"><a href="#Hot-Module-Replacement-热替换" class="headerlink" title="Hot Module Replacement 热替换"></a>Hot Module Replacement 热替换</h2><p>iframe mode和inline mode都支持Hot Module Replacement功能，使用webpack-dev-server –hot启动服务器</p>
+<h2 id="Proxy-代理"><a href="#Proxy-代理" class="headerlink" title="Proxy 代理"></a>Proxy 代理</h2><p>可以在webpack.config.js中配置devServer属性，将Proxy代码加在devServer属性中；</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot;&gt;&lt;a href=&quot;#使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot; class=&quot;headerlink&quot; title=&quot;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&quot;&gt;&lt;/a&gt;使用img-loader进行图片压缩。img-loader要和url-loader、file-loader或者raw-loader一起使用才有效果。&lt;/h3&gt;&lt;p&gt;img-loader可以对Gif、Png、Jpg和Svg图片进行压缩，各个图片类型对应组件如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;gifsicle ：压缩Gif图片&lt;/li&gt;
-&lt;li&gt;jpegtran： 压缩Jpg&lt;/li&gt;
-&lt;li&gt;opipng：压缩Png&lt;/li&gt;
-&lt;li&gt;pngquant：压缩Png&lt;/li&gt;
-&lt;li&gt;svgo：压缩Svg图片
+      &lt;p&gt;webpack-dev-server是小型静态node服务器，有点像grunt打包工具的grunt server服务器。它主要功能调试一些静态文件，不支持后端语言。webpack-dev-server会将被访问的文件放在内存中，所以webpack-dev-server没有自己的文件夹。如果编译的文件路径和内存中的路径相同，优先调用内存中的文件。&lt;/p&gt;
+&lt;p&gt;webpack-dev-server主要有下面几个功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;–Content-Base 设置资源目录 &lt;/li&gt;
+&lt;li&gt;Automatic Refresh 自动刷新 &lt;/li&gt;
+&lt;li&gt;Hot Module Replacement 热替换 4. Proxy 代理&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Content-Base-设置资源目录&quot;&gt;&lt;a href=&quot;#Content-Base-设置资源目录&quot; class=&quot;headerlink&quot; title=&quot;Content-Base 设置资源目录&quot;&gt;&lt;/a&gt;Content-Base 设置资源目录&lt;/h2&gt;&lt;p&gt;一般都在webpack.config.js所在目录中，直接Webpack-dev-server命令启动服务器就可以了。有时候会有设计特定路径的要求，比如不在根目录上运行，需要在Grunt打包的dest目录下运行，可以运行：Webpack-dev-server –content-base ./dest&lt;br&gt;使用了–content-base属性，webpack.config.js的output配置需要增加publicPath属性，如下：&lt;br&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;output: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;path&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;/dest/&quot;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;publicPath&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;/dest/&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
     
     </summary>
     
@@ -920,41 +966,6 @@
     
     
       <category term="canvas" scheme="http://yoursite.com/tags/canvas/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>手机开发切图相关总结</title>
-    <link href="http://yoursite.com/2013/01/18/%E6%89%8B%E6%9C%BA%E5%BC%80%E5%8F%91%E5%88%87%E5%9B%BE%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"/>
-    <id>http://yoursite.com/2013/01/18/手机开发切图相关总结/</id>
-    <published>2013-01-18T10:57:00.000Z</published>
-    <updated>2016-12-25T04:21:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>这两天都在做一些手机开发的工作。感觉和pc端的有一些差异性。需要考虑的问题增加很多。其中一个问题就是适配问题，需要考虑多种机型的分辨率问题。当UE给出效果图的时候，需要做一些缩放的工作。这个过程是比较枯燥的。当遇到图片的时候，需要利用background-size的属性来缩放。</p>
-<p>手机浏览器一般有流量的因素，所以有些渐变的效果，可以直接用css来实现。而不需要再加载一些图片，从而增加流量。所以要对-webkit-gradient属性要很熟悉。  </p>
-<p>手机浏览器屏幕很小，所以要考虑布局问题，怎么样布局可以让页面看上去，更加的流畅而不拥挤。  </p>
-<p>手机浏览器的内存较小，冗余的样式代码会加剧不必要的内存损耗。所以编写优雅简洁的代码在显得更加的必要。  </p>
-<p>发现自己切一个图花了两天的时间。其中有很多的方法是不正确的。下面总结一个切图的方法论。<br><a id="more"></a><br> 1.按照一个正常的思维流程，从大到小。先把握的大方向。比如怎么布局，整个字体样式等等。</p>
-<p> 2.写出一些基本单元样式，供后面使用。</p>
-<p> 3.尽量使用继承的样式，如果满足要求的话，可以使用覆盖方式。从而可以减小代码量。</p>
-<p>当我们拿到一个做好的页面，要在基础上修改的时候。有下面几个原则。</p>
-<p> 1.首先在大的方面，阅读和理解样式代码，知道有什么。</p>
-<p> 2.然后列出所有需要修改的列表。</p>
-<p> 3.最后结合所有信息，做一个统一的修改。（防止对单一点，进行修改，这样的话，会顾此失彼）</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这两天都在做一些手机开发的工作。感觉和pc端的有一些差异性。需要考虑的问题增加很多。其中一个问题就是适配问题，需要考虑多种机型的分辨率问题。当UE给出效果图的时候，需要做一些缩放的工作。这个过程是比较枯燥的。当遇到图片的时候，需要利用background-size的属性来缩放。&lt;/p&gt;
-&lt;p&gt;手机浏览器一般有流量的因素，所以有些渐变的效果，可以直接用css来实现。而不需要再加载一些图片，从而增加流量。所以要对-webkit-gradient属性要很熟悉。  &lt;/p&gt;
-&lt;p&gt;手机浏览器屏幕很小，所以要考虑布局问题，怎么样布局可以让页面看上去，更加的流畅而不拥挤。  &lt;/p&gt;
-&lt;p&gt;手机浏览器的内存较小，冗余的样式代码会加剧不必要的内存损耗。所以编写优雅简洁的代码在显得更加的必要。  &lt;/p&gt;
-&lt;p&gt;发现自己切一个图花了两天的时间。其中有很多的方法是不正确的。下面总结一个切图的方法论。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="移动端" scheme="http://yoursite.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/"/>
     
   </entry>
   
